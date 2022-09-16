@@ -35,7 +35,7 @@ function agregarSerie(obj){
 
     for (var i = 0; i < 20; i++) {
         if(!obj.results[i].poster_path){
-            img = "/img/notfound.gif";
+            img = "img/notfound.gif";
         }else{
             img = posterS + obj.results[i].poster_path;
         }
@@ -50,7 +50,7 @@ function agregarSerie(obj){
                 <table class="table">
                     <tr><th>${obj.results[i].name}</th></tr>
                     <tr><td>${obj.results[i].first_air_date}</td></tr>
-                    <tr><td><a href="/serie.html"><img src="${img}" width="100" onclick="setSerieId(${obj.results[i].id})")"></a></td></tr>
+                    <tr><td><a href="serie.html"><img src="${img}" width="100" onclick="setSerieId(${obj.results[i].id})")"></a></td></tr>
                 </table>
             </div>`;
      }

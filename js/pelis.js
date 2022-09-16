@@ -64,7 +64,7 @@ function agregarPG(obj){
 
     for (var i = 0; i < 20; i++) {
         if(!obj.results[i].poster_path){
-            img = "/img/notfound.gif";
+            img = "img/notfound.gif";
         }else{
             img = poster + obj.results[i].poster_path;
         }
@@ -79,7 +79,7 @@ function agregarPG(obj){
                 <table class="table">
                     <tr><th>${obj.results[i].title}</th></tr>
                     <tr><td>${obj.results[i].release_date}</td></tr>
-                    <tr><td><a href="/peli.html"><img src="${img}" width="100" onclick="setPeliId(${obj.results[i].id})")"></a></td></tr>
+                    <tr><td><a href="peli.html"><img src="${img}" width="100" onclick="setPeliId(${obj.results[i].id})")"></a></td></tr>
                 </table>
             </div>`;
      }
