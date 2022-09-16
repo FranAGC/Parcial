@@ -5,9 +5,9 @@ let api_key = "a942d3966a09e081af050ca19fb39e10";
 
 //Obtener peliculas pagina pricipal
 async function getSeriesP(){
-    var pPrincipal = await (await fetch(`https://api.themoviedb.org/3/discover/tv?api_key=a942d3966a09e081af050ca19fb39e10&language=es-ES&sort_by=popularity.desc&page=1&include_null_first_air_dates=false&with_status=0&with_type=0`)).json();
+    var pPrincipal = await (await fetch(`https://api.themoviedb.org/3/discover/tv?api_key=a942d3966a09e081af050ca19fb39e10&language=es-ES&sort_by=popularity.desc&page=1`)).json();
     console.log("Series pagina principal:",pPrincipal);
-    agregarSerie(pPrincipal);
+    agregarSerie(pPrincipal, "Series del momento");
 }
 
 
@@ -28,8 +28,9 @@ form.addEventListener('submit', (event) => {
 
 
 //Agregar Series
-function agregarSerie(obj){
-    let tabla = document.getElementById('pelis');
+function agregarSerie(obj, titulo){
+    let tabla = document.getElementById('series');
+    document.getElementById('titulo').innerHTML = titulo;
     tabla.innerHTML = "";
     let img, nombre;
 
@@ -41,14 +42,14 @@ function agregarSerie(obj){
         }
         
         if(!obj.results[i].belongs_to_collection){
-            nombre = obj.results[i].original_title;
+            nombre = obj.results[i].name;
         }else{
-            nombre = obj.results[i].belongs_to_collection.name
+            nombre = obj.results[i].name
         }
 
         tabla.innerHTML += `<div class="col-md-3">
                 <table class="table">
-                    <tr><th>${obj.results[i].name}</th></tr>
+                    <tr><th>${obj.results[i].name} ${obj.results[i].vote_average}</th></tr>
                     <tr><td>${obj.results[i].first_air_date}</td></tr>
                     <tr><td><a href="serie.html"><img src="${img}" width="100" onclick="setSerieId(${obj.results[i].id})")"></a></td></tr>
                 </table>
@@ -72,18 +73,17 @@ async function serieId() {
     var obj = await (await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${api_key}&language=es-ES`)).json();
     console.log(obj);
 
-    agregarPeliId(obj);
+    agregarSerieId(obj);
 }
 
 
 //Agregar Peliculas por ID
-function agregarPeliId(obj){
-    let tabla = document.getElementById('pelis');
+function agregarSerieId(obj){
+    let art = document.getElementById('serie');
 
-    tabla.innerHTML += `<div class="col-md-3">
-                <table class="table">
-                    <td>${obj.name}</td>
-                    <tr><td><img src="${posterS + obj.poster_path}" width="100"></td></tr>
-                </table>
-            </div>`;
+    art.innerHTML = `
+                        <h1 id="titulo">${obj.name}</h1>
+                        <h4>Estreno: ${obj.first_air_date}</h4>
+                        <img src="${posterS + obj.poster_path}" width="200">
+                        <p>${obj.overview}</p>`;
 }

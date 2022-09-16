@@ -1,5 +1,6 @@
 let poster = "https://image.tmdb.org/t/p/w500/";
 let api_key = "a942d3966a09e081af050ca19fb39e10";
+const fecha = new Date();
 const form  = document.getElementById('fbuscar');
 
 
@@ -7,7 +8,8 @@ const form  = document.getElementById('fbuscar');
 async function getPelicP(){
     var pPrincipal = await (await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=es-ES&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&year=2022`)).json();
     console.log("Peliculas pagina principal:",pPrincipal);
-    agregarPG(pPrincipal);
+
+    agregarPG(pPrincipal, "Lo más popular del 2022");
 }
 
 
@@ -42,17 +44,19 @@ function agregarGens(obj){
 
 //Obtener peliculas por genero
 async function pelisGeners(){
-    let gen = document.getElementById('generos').value.toString()
-    console.log("codigo genro:", gen);
-    var pGens = await (await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=es-ES&sort_by=release_date.desc&include_adult=true&include_video=false&page=1&with_genres=${gen}`)).json();
+    let gen = document.getElementById('generos');
+    mesA = fecha.getFullYear().toString()+"-0"+(fecha.getMonth()+1);
+    console.log("fecha:", mesA);
+    var pGens = await (await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=es-ES&sort_by=release_date.desc&release_date.lte=${mesA}&include_adult=true&include_video=false&page=1&with_genres=${gen.value.toString()}&vote_average.gte=6`)).json();
     console.log("Peliculas por Genero",pGens);
-    agregarPG(pGens);
+    agregarPG(pGens, `Lo mas reciente en el genero de ${gen.options[gen.selectedIndex].text}`);
 }
 
 
 //Agregar peliculas
-function agregarPG(obj){
+function agregarPG(obj, titulo){
     let tabla = document.getElementById('pelis');
+    document.getElementById('titulo').innerHTML = titulo;
     tabla.innerHTML = "";
     let img, nombre;
 
@@ -71,7 +75,7 @@ function agregarPG(obj){
 
         tabla.innerHTML += `<div class="col-md-3">
                 <table class="table">
-                    <tr><th>${obj.results[i].title}</th></tr>
+                    <tr><th>${obj.results[i].title} ${obj.results[i].vote_average}</th></tr>
                     <tr><td>${obj.results[i].release_date}</td></tr>
                     <tr><td><a href="peli.html"><img src="${img}" width="100" onclick="setPeliId(${obj.results[i].id})")"></a></td></tr>
                 </table>
@@ -103,10 +107,9 @@ async function peliId() {
 function agregarPeliId(obj){
     let tabla = document.getElementById('pelis');
 
-    tabla.innerHTML += `<div class="col-md-3">
-                <table class="table">
-                    <td>${obj.title}</td>
-                    <tr><td><img src="${poster + obj.poster_path}" width="100"></td></tr>
-                </table>
-            </div>`;
+    tabla.innerHTML += `
+                        <h1 id="titulo">${obj.title}</h1>
+                        <h4>${obj.release_date}</h4>
+                        <img src="${poster + obj.poster_path}" width="200">
+                        <p>${obj.overview}</p>`;
 }
