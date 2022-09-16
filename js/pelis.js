@@ -13,7 +13,7 @@ async function getPelicP(){
 
 //Obtener peliculas por busqueda
 async function buscarPelis(){
-    const lbuscar  = document.getElementById('buscar');
+    const lbuscar = document.getElementById('buscar');
     
     var peliBuscar = await (await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&language=es-ES&query=${lbuscar.value}&page=1&include_adult=true`)).json();
     console.log("Busqueda peliculas:",peliBuscar);
