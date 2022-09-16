@@ -27,10 +27,10 @@
                     <a class="nav-link" href="series.html">Series</a>
                   </li>
                 </ul>
-                <form class="d-flex" role="search" id="fbuscar">
+                <div class="d-flex">
                   <input class="form-control me-2" type="search" placeholder="Buscar" id="buscar">
-                  <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
+                  <button class="btn btn-outline-success" onclick="buscarPelis()" >Buscar</button>
+                </div>
               </div>
             </div>
           </nav>
@@ -39,7 +39,7 @@
     <div class="row">
       <label for="depto">Generos</label>
       <div class="col-md-4"><select class="form-select" id="generos" ></select></div>
-      <div class="col-md-4"><button class="btn btn-outline-success" type="submit" onclick="pelisGeners()">Filtrar</button></div>
+      <div class="col-md-4"><button class="btn btn-outline-success" onclick="pelisGeners()">Filtrar</button></div>
     </div>
 
     <article>

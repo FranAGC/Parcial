@@ -22,12 +22,6 @@ async function buscarPelis(){
 
 
 
-form.addEventListener('submit', (event) => {
-    buscarPelis();
-});
-
-
-
 //Obtener generos
 async function cargarGeneros(){
     var generos = await (await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=es-ES`)).json();
